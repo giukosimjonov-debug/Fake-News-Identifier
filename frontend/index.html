@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fake News Detector AI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center p-4">
+    
+    <div class="bg-white p-8 rounded-2xl shadow-xl max-w-2xl w-full">
+        <h1 class="text-3xl font-extrabold text-center text-blue-700 mb-2">Fake News Detector</h1>
+        <p class="text-gray-500 mb-6 text-center">Check the reliability of news using AI</p>
+
+        <textarea id="newsText" rows="6" 
+            class="w-full p-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none mb-4 resize-none transition-shadow" 
+            placeholder="Enter the text of the suspicious news item here..."></textarea>
+
+        <button onclick="checkNews()" id="checkBtn"
+            class="w-full bg-blue-600 text-white font-bold py-3 rounded-xl hover:bg-blue-700 transition duration-300 shadow-md">
+            Predict
+        </button>
+
+        <div id="resultBox" class="mt-6 hidden p-6 rounded-xl text-center border-2 border-transparent transition-all">
+            <h2 id="predictionText" class="text-2xl font-bold mb-4"></h2>
+            
+            <div class="flex justify-around text-lg bg-white p-3 rounded-lg shadow-inner">
+                <p class="text-green-700 font-bold">True: <span id="realProb"></span>%</p>
+                <p class="text-red-700 font-bold">Fake: <span id="fakeProb"></span>%</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        async function checkNews() {
+            const text = document.getElementById('newsText').value;
+            const btn = document.getElementById('checkBtn');
+            const resultBox = document.getElementById('resultBox');
+            const predictionText = document.getElementById('predictionText');
+            
+            if (!text.trim()) {
+                alert("Please, enter a text!");
+                return;
+            }
+
+            btn.innerText = "Processing...";
+            btn.classList.add("opacity-75", "cursor-not-allowed");
+            resultBox.classList.add('hidden');
+
+            try {
+                const response = await fetch('http://127.0.0.1:8000/predict', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ text: text })
+                });
+
+                const data = await response.json();
+
+                document.getElementById('realProb').innerText = data.real_probability;
+                document.getElementById('fakeProb').innerText = data.fake_probability;
+
+                resultBox.classList.remove('hidden');
+
+                if (data.prediction === "Real") {
+                    predictionText.innerText = "✅Real";
+                    resultBox.className = "mt-6 p-6 rounded-xl text-center bg-green-50 border-2 border-green-200";
+                    predictionText.className = "text-2xl font-bold mb-4 text-green-700";
+                } else {
+                    predictionText.innerText = "⚠️Fake";
+                    resultBox.className = "mt-6 p-6 rounded-xl text-center bg-red-50 border-2 border-red-200";
+                    predictionText.className = "text-2xl font-bold mb-4 text-red-700";
+                }
+            } catch (error) {
+                alert("Error! Make sure server(backend) is working");
+            } finally {
+                btn.innerText = "Predict";
+                btn.classList.remove("opacity-75", "cursor-not-allowed");
+            }
+        }
+    </script>
+</body>
+</html>
