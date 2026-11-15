@@ -2,7 +2,7 @@
 
 An end-to-end Natural Language Processing (NLP) web application that classifies news articles as **Real** or **Fake** with confidence probabilities. Built with a custom **PyTorch** Neural Network, **FastAPI** backend, and a responsive **Tailwind CSS** frontend.
 
-🔗 **Live Web App:** [https://fake-news-web-fszb.onrender.com](https://fake-news-web-fszb.onrender.com)  
+🔗 **Live Web App:** [https://fake-news-web-1szb.onrender.com/](https://fake-news-web-fszb.onrender.com)  
 ⚙️ **Backend API:** [https://fake-news-identifier-150i.onrender.com](https://fake-news-identifier-150i.onrender.com)
 
 > **Note:** Both services are hosted on Render's free tier. If the server is inactive, the initial prediction request may take 40–50 seconds while the instance wakes up.
