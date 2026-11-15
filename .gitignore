@@ -1,0 +1,35 @@
+# Python cache va kompilyatsiya fayllari
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+dist/
+*.egg-info/
+
+# Virtual muhit (Virtual Environments)
+venv/
+.venv/
+env/
+ENV/
+
+# macOS tizim fayllari (MacBook uchun muhim)
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Jupyter Notebook vaqtinchalik fayllari
+.ipynb_checkpoints/
+
+# Kod muharrirlari (VS Code / PyCharm)
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Muhit o'zgaruvchilari va loglar
+.env
+*.log
+nltk_data/
